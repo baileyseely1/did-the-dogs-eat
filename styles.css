@@ -52,10 +52,10 @@ button {
   width: 100%;
 }
 
-/* button:hover {
-  background-color: #432000;
+button:hover {
+  /* background-color: #432000; */
   cursor: pointer;
-} */
+}
 
 .checked {
   background-color: rgb(36, 164, 36);
