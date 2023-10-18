@@ -41,7 +41,7 @@ async function handleWalkedButtonClick(btnId) {
     if (walkedSnapshot.exists()) {
       const hasWalked = walkedSnapshot.val();
       await set(walkedRef, !hasWalked);
-      hardRefresh();
+      setTimeout(hardRefresh, 5000);
     }
   } catch (error) {
     console.error("An error occurred:", error);
@@ -54,7 +54,7 @@ async function handleMealButtonClick(mealRef, btnId) {
     if (snapshot.exists()) {
       const hasEaten = snapshot.val();
       await set(mealRef, !hasEaten);
-      hardRefresh();
+      setTimeout(hardRefresh, 5000);
     }
   } catch (error) {
     console.error("An error occurred:", error);
