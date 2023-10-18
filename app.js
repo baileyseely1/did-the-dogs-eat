@@ -21,28 +21,53 @@ document.addEventListener("click", async (e) => {
   const isBtn = e.target.nodeName === "BUTTON";
   if (!isBtn) {
     return;
+  }
+
+  const btnId = e.target.id;
+  const mealRef = ref(database, `Meals/${btnId}/hasEaten`);
+
+  if (btnId === "walked") {
+    handleWalkedButtonClick();
   } else {
-    const btnId = e.target.id;
-    const mealRef = ref(database, `Meals/${btnId}/hasEaten`);
-
-    try {
-      const snapshot = await get(mealRef);
-
-      if (snapshot.exists()) {
-        const hasEaten = snapshot.val();
-        await set(mealRef, !hasEaten);
-        const buttonElement = document.getElementById(btnId);
-        if (hasEaten) {
-          buttonElement.classList.remove("checked");
-        } else {
-          buttonElement.classList.add("checked");
-        }
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
+    handleMealButtonClick(mealRef, btnId);
   }
 });
+
+async function handleWalkedButtonClick() {
+  const walkedRef = ref(database, "hasWalked");
+  try {
+    const walkedSnapshot = await get(walkedRef);
+    if (walkedSnapshot.exists()) {
+      const hasWalked = walkedSnapshot.val();
+      await set(walkedRef, !hasWalked);
+      updateButtonAppearance("walked", !hasWalked);
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+async function handleMealButtonClick(mealRef, btnId) {
+  try {
+    const snapshot = await get(mealRef);
+    if (snapshot.exists()) {
+      const hasEaten = snapshot.val();
+      await set(mealRef, !hasEaten);
+      updateButtonAppearance(btnId, !hasEaten);
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+function updateButtonAppearance(btnId, hasEaten) {
+  const buttonElement = document.getElementById(btnId);
+  if (hasEaten) {
+    buttonElement.classList.add("checked");
+  } else {
+    buttonElement.classList.remove("checked");
+  }
+}
 
 onValue(mealsInDb, (snapshot) => {
   const data = snapshot.val();
@@ -56,16 +81,17 @@ onValue(mealsInDb, (snapshot) => {
 
 onValue(dateRef, (dateSnapshot) => {
   const storedDate = dateSnapshot.val();
-  checkAndResetHasEaten(storedDate);
+  checkAndReset(storedDate);
 });
 
-function checkAndResetHasEaten(data) {
+function checkAndReset(data) {
   const currentDate = getDate();
   if (data !== currentDate) {
     set(dateRef, currentDate);
     set(ref(database, `Meals/breakfast/hasEaten`), false);
     set(ref(database, `Meals/lunch/hasEaten`), false);
     set(ref(database, `Meals/supper/hasEaten`), false);
+    set(ref(database, "hasWalked"), false);
   }
 }
 
