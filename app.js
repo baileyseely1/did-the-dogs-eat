@@ -18,8 +18,6 @@ const mealsInDb = ref(database, "Meals");
 const dateRef = ref(database, "Date");
 const walkedRef = ref(database, "hasWalked");
 
-const twilio = require("twilio");
-
 document.addEventListener("click", async (e) => {
   const isBtn = e.target.nodeName === "BUTTON";
   if (!isBtn) {
@@ -98,28 +96,8 @@ function checkAndReset(data) {
   }
 }
 
-async function sendSMS(to, body) {
-  const client = twilio(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_AUTH_TOKEN
-  );
-
-  try {
-    await client.messages.create({
-      body: body,
-      to: +19029164110, // The recipient's phone number
-      from: +13082109335, // Use your Twilio phone number here
-    });
-    console.log("SMS sent successfully");
-  } catch (error) {
-    console.error("Failed to send SMS:", error);
-  }
-}
-
 function render() {
   setDate();
 }
 
 render();
-
-sendSMS();
