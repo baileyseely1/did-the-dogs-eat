@@ -14,3 +14,20 @@ export function setDate() {
   const dateEl = document.getElementById("date");
   dateEl.textContent = getDate();
 }
+
+export function updateButtonAppearance(btnId, state) {
+  const buttonElement = document.getElementById(btnId);
+  if (btnId === "walked") {
+    if (state) {
+      buttonElement.classList.add("checked");
+    } else {
+      buttonElement.classList.remove("checked");
+    }
+  } else {
+    if (state) {
+      buttonElement.classList.add("checked");
+    } else {
+      buttonElement.classList.remove("checked");
+    }
+  }
+}

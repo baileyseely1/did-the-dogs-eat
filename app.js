@@ -1,4 +1,8 @@
-import { setDate, getDate } from "./components/utils.js";
+import {
+  setDate,
+  getDate,
+  updateButtonAppearance,
+} from "./components/utils.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {
   getDatabase,
@@ -27,20 +31,20 @@ document.addEventListener("click", async (e) => {
   const mealRef = ref(database, `Meals/${btnId}/hasEaten`);
 
   if (btnId === "walked") {
-    handleWalkedButtonClick();
+    handleWalkedButtonClick(btnId);
   } else {
     handleMealButtonClick(mealRef, btnId);
   }
 });
 
-async function handleWalkedButtonClick() {
+async function handleWalkedButtonClick(btnId) {
   const walkedRef = ref(database, "hasWalked");
   try {
     const walkedSnapshot = await get(walkedRef);
     if (walkedSnapshot.exists()) {
       const hasWalked = walkedSnapshot.val();
       await set(walkedRef, !hasWalked);
-      updateButtonAppearance("walked", !hasWalked);
+      updateButtonAppearance(btnId, !hasWalked);
     }
   } catch (error) {
     console.error("An error occurred:", error);
@@ -57,15 +61,6 @@ async function handleMealButtonClick(mealRef, btnId) {
     }
   } catch (error) {
     console.error("An error occurred:", error);
-  }
-}
-
-function updateButtonAppearance(btnId, hasEaten) {
-  const buttonElement = document.getElementById(btnId);
-  if (hasEaten) {
-    buttonElement.classList.add("checked");
-  } else {
-    buttonElement.classList.remove("checked");
   }
 }
 
