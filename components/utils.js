@@ -14,3 +14,7 @@ export function setDate() {
   const dateEl = document.getElementById("date");
   dateEl.textContent = getDate();
 }
+
+export function hardRefresh() {
+  location.reload(true);
+}

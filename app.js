@@ -1,4 +1,4 @@
-import { setDate, getDate } from "./components/utils.js";
+import { setDate, getDate, hardRefresh } from "./components/utils.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {
   getDatabase,
@@ -41,6 +41,7 @@ async function handleWalkedButtonClick(btnId) {
     if (walkedSnapshot.exists()) {
       const hasWalked = walkedSnapshot.val();
       await set(walkedRef, !hasWalked);
+      hardRefresh();
     }
   } catch (error) {
     console.error("An error occurred:", error);
@@ -53,6 +54,7 @@ async function handleMealButtonClick(mealRef, btnId) {
     if (snapshot.exists()) {
       const hasEaten = snapshot.val();
       await set(mealRef, !hasEaten);
+      hardRefresh();
     }
   } catch (error) {
     console.error("An error occurred:", error);
