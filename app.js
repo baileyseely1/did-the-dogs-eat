@@ -20,13 +20,12 @@ const walkedRef = ref(database, "hasWalked");
 
 document.addEventListener("click", async (e) => {
   const isBtn = e.target.nodeName === "BUTTON";
-  if (!isBtn) {
-    return;
-  }
-
   const btnId = e.target.id;
   const mealRef = ref(database, `Meals/${btnId}/hasEaten`);
 
+  if (!isBtn) {
+    return;
+  }
   if (btnId === "walked") {
     handleWalkedButtonClick(btnId);
   } else {
@@ -66,7 +65,7 @@ onValue(mealsInDb, (snapshot) => {
   const dataArr = Object.entries(data);
   dataArr.forEach((meal) => {
     const mealEl = document.getElementById(`${meal[0]}`);
-    meal[0] === `${meal[0]}` && meal[1].hasEaten
+    meal[1].hasEaten
       ? mealEl.classList.add("checked")
       : mealEl.classList.remove("checked");
   });
@@ -85,9 +84,9 @@ onValue(walkedRef, (walkedSnapshot) => {
     : walkedEl.classList.remove("checked");
 });
 
-function checkAndReset(data) {
+function checkAndReset(date) {
   const currentDate = getDate();
-  if (data !== currentDate) {
+  if (date !== currentDate) {
     set(dateRef, currentDate);
     set(ref(database, `Meals/breakfast/hasEaten`), false);
     set(ref(database, `Meals/lunch/hasEaten`), false);
@@ -96,8 +95,4 @@ function checkAndReset(data) {
   }
 }
 
-function render() {
-  setDate();
-}
-
-render();
+setDate();

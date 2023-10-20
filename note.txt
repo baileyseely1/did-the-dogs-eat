@@ -1,0 +1,5 @@
+if time = 8am && !hadBreakfast : send sms saying "boys didnt get breakfast yet"
+if time = 12pm && !hadLunch : send sms saying "boys didnt get lunch yet"
+if time = 5pm && !hadSupper : send sms saying "boys didnt get supper yet"
+
+if boys had breakfast/lunch/supper send sms saying "boys fed"
