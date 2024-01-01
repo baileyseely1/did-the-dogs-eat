@@ -10,3 +10,4 @@ Live deploy (tailored to my dogs) - https://didthedogseat.netlify.app/
 - Click the buttons to indicate whether your dogs have eaten or been for a walk.
 - The buttons will reset automatically at the beginning of each day.
 - The app will sync data with Google Cloud Firestore to provide consistent information.
+- The app will also force refresh when a change is made to ensure mobile users who added the site to their homescreen as an app will have up to date info.
